@@ -15,12 +15,12 @@ interface Video {
 
 export default async function Home() {
   const videos = await getHypeVideos();
-  console.log(videos);
+  // console.log(videos);
 
   return (
     <div className='max-w-3xl min-h-svh mx-auto flex flex-col'>
       <div className='p-4 flex justify-between'>
-        <h1 className='text-2xl font-bold'>yt-list</h1>
+        <h1 className='text-2xl font-bold'>yt-ranking</h1>
         <div className='flex gap-4'>
           <ModeToggle />
         </div>
@@ -29,16 +29,18 @@ export default async function Home() {
         <TableBody>
             {videos.map((video) => (
               <TableRow key={video.url}>
-                <TableCell className='w-44 align-top'>
+                <TableCell className='w-44 align-top relative'>
                   <a href={video.url} target='_blank' rel='noopener noreferrer'>
-                    <img className='rounded-lg' src={video.thumbnail} />
+                    <img className='rounded-lg' src={video.thumbnail} alt='thumbnail' />
                   </a>
+                  <p className='absolute right-4 bottom-4 bg-background/70 px-1 rounded-sm'>{video.len}</p>
                 </TableCell>
                 <TableCell className='align-top space-y-1'>
-                  <h2 className='text-base/5 text-wrap line-clamp-2'>{video.title}</h2>
-                  {/* <p className='text-xs text-wrap line-clamp-1 text-muted-foreground'>{video.creator}</p> */}
+                  <h2 className='text-base/5 text-wrap line-clamp-2'>
+                    <a href={video.url} target='_blank' rel='noopener noreferrer'>{video.title}</a>
+                  </h2>
                   <p className='text-xs text-wrap line-clamp-1 text-muted-foreground'>{video.creator} • {video.hits} • {video.created}</p>
-                  <p className='text-xs text-wrap line-clamp-1 bg-muted px-2 py-1 inline-block rounded-lg'>🌠 {video.ranking}</p>
+                  <p className='text-xs bg-muted px-2 py-1 inline-block rounded-lg'>🌠 {video.ranking}</p>
                 </TableCell>
               </TableRow>
             ))}
