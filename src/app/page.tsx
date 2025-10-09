@@ -182,13 +182,8 @@ message Msg33_2 { uint32 f1 = 1; }
   `;
   const root = protobuf.parse(proto).root;
   const Root = root.lookupType('demo.Root');
-  const buffer = Root.encode(payload).finish();
-  return new ReadableStream<Uint8Array>({
-    start(controller) {
-      controller.enqueue(buffer);
-      controller.close();
-    },
-  });
+  const u8 = Root.encode(payload).finish();
+  return Buffer.from(u8);
 }
 
 function decode(buffer: ArrayBuffer) {
