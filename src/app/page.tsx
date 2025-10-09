@@ -5,7 +5,7 @@ export default async function Home() {
 
   return (
     <div>
-      test
+      {JSON.stringify(videos)}
     </div>
   );
 }
@@ -23,6 +23,7 @@ async function getHypeVideos() {
   });
   const obj = decode(await res.arrayBuffer());
   console.log(obj);
+  return obj;
 }
 
 function encode() {
