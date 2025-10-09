@@ -19,7 +19,7 @@ async function getHypeVideos() {
       'Content-Type': 'application/x-protobuf',
       'x-youtube-cold-config-data': config,
     },
-    body: encode(),
+    body: encode() as unknown as BodyInit,
   });
   const obj = decode(await res.arrayBuffer());
   console.log(obj);
@@ -126,7 +126,7 @@ message Msg33_2 { uint32 f1 = 1; }
   return buffer;
 }
 
-function decode(buffer) {
+function decode(buffer: ArrayBuffer) {
   const proto = `
 syntax = "proto3";
 
