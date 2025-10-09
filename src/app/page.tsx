@@ -1,17 +1,53 @@
 import protobuf from 'protobufjs';
+import { ModeToggle } from '@/components/mode-toggle.tsx';
+import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table.tsx';
+
+interface Video {
+  url: string;
+  len: string;
+  thumbnail: string;
+  title: string;
+  creator: string;
+  hits: string;
+  created: string;
+  ranking: string;
+}
 
 export default async function Home() {
   const videos = await getHypeVideos();
+  console.log(videos);
 
   return (
-    <div>
-      {Date.now()}
-      {JSON.stringify(videos)}
+    <div className='max-w-3xl min-h-svh mx-auto flex flex-col'>
+      <div className='p-4 flex justify-between'>
+        <h1 className='text-2xl font-bold'>yt-list</h1>
+        <div className='flex gap-4'>
+          <ModeToggle />
+        </div>
+      </div>
+      <Table className='table-fixed'>
+        <TableBody>
+            {videos.map((video) => (
+              <TableRow key={video.url}>
+                <TableCell className='w-48'>
+                  <a href={video.url} target='_blank' rel='noopener noreferrer'>
+                    <img className='rounded-lg' src={video.thumbnail} />
+                  </a>
+                </TableCell>
+                <TableCell className='align-top'>
+                  <h2 className='text-lg/6 text-wrap line-clamp-2'>{video.title}</h2>
+                  <p className='text-wrap line-clamp-1 text-muted-foreground'>{video.creator}</p>
+                  <p className='text-wrap line-clamp-1 text-muted-foreground'>{video.hits} • {video.created}</p>
+                </TableCell>
+              </TableRow>
+            ))}
+        </TableBody>
+      </Table>
     </div>
   );
 }
 
-async function getHypeVideos() {
+async function getHypeVideos(): Promise<Video[]> {
   const endpoint = 'https://youtubei.googleapis.com/youtubei/v1/browse';
   const config = 'CKXsl8cGEO2KrQUQ8rqtBRCOlq4FEIirrgUQvbauBRCO164FEJDXrgUQq5yvBRDagrAFELWKsAUQ56WwBRCc0LAFEM_SsAUQs_KwBRDj-LAFEJjZsQUQ15jOHBD8ss4cEObIzhwQwobPHBCrnc8cEOe9zxwQ-MbPHBCays8cENrTzxwQnNfPHBDL2s8cEM_gzxwQt-TPHBDP5c8cEKrozxwQr_PPHBDy9s8cEM_8zxwQ4f7PHBDo_s8cEOn-zxwQ-__PHBDMgNAcENWD0BwQmoXQHBD7h9AcEICI0BwQm4jQHBDziNAcEOyK0BwQxozQHBoyQU9qRm94MkRnWlhDLUtlNmQ4NDNhMjVxQmQyTjNGSWh5Y2g2YXBJX00tQV94OE93eWciMkFPakZveDF4V1dIWjJqaFlfUDcwbXU4N0NvOTVoVWg4b3lxU0RjZnlFdUphWTR5djVnKpACQ0FNU3hRRU5VNG5RcVFMdExObDRCdWdDN3diNEZPc0RfaXVqRGZJUXFnR2tGLXNBMXl1b0RrYlNGdDJ5bXhEa0JvMFAzQS1rQ3JVUzNBUHlDaGFrQTU0VTd4WVVud0hQRk9RR3d4TGxGWkVWcHcyVUFPSU1yaExfQmhWcXRxeldET0xIQTZTdjBnc1FuRDY3Rjh6ckJxUXNoc2NGbExNRzZXblQ0d2JHTWZ5VkJvRG9CTjFXbWdIb2FQNFY3Qk9VUi14ZW1ZRUduSDNNZmNrcl9tV0xIbUdmOVFhY1FPdGZ1QXV4TG9TWkJqTEtMNDBVNk13RzJhUUdBNnNKa0xrR0JkcHZ2RUhOZGVTT0JRPT0%3D';
   const res = await fetch(endpoint, {
@@ -23,9 +59,25 @@ async function getHypeVideos() {
     },
     body: encode() as unknown as BodyInit,
   });
-  const obj = decode(await res.arrayBuffer());
-  console.log(obj);
-  return obj;
+  const object = decode(await res.arrayBuffer());
+  // console.log(object.field_9.f_58173949.f_1[0].f_58174010.f_4.f_49399797.f_1[0])
+
+  return object.field_9.f_58173949.f_1[0].f_58174010.f_4.f_49399797.f_1.map((obj: any) => {
+    const f_1 = obj.f_50195462.f_1.f_153515154.f_172660663.f_1.f_168777401.f_5.f_232971250.f_25.f_1;
+    const f_2 = obj.f_50195462.f_1.f_153515154.f_172660663.f_1.f_168777401.f_5.f_232971250.f_25.f_2;
+    const data = f_2.split(' - ').toReversed()
+    return {
+      url: f_1.f_6,
+      len: f_1.f_1.f_2,
+      thumbnail: f_1.f_1.f_1.f_1.at(-1).f_1,
+      title: f_1.f_2.f_1,
+      creator: f_1.f_2.f_2,
+      hits: data[3],
+      created: data[2],
+      ranking: data[1],
+      // data,
+    }
+  });
 }
 
 function encode() {
@@ -35,6 +87,9 @@ function encode() {
         f1: 'ko', // optional, 제목 자동번역 막고 한글로
         f16: 5,
         f17: '19.34.2',
+        f37: 428,
+        f38: 926,
+        f65: 0x40400000,
       },
     },
     f2: 'FEhype_leaderboard',
