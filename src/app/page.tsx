@@ -1,10 +1,11 @@
 export default async function Home() {
-  const res = await fetch('api/hype');
-  const videos = await res.json()
+  // const res = await fetch('api/hype');
+  // const videos = await res.json()
 
   return (
     <div>
-      {JSON.stringify(videos)}
+      {Date.now()}
+      {/* {JSON.stringify(videos)} */}
     </div>
   );
 }
