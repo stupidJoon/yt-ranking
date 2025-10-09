@@ -52,7 +52,7 @@ export default async function Home() {
 
 async function getHypeVideos(): Promise<Video[]> {
   const endpoint = 'https://youtubei.googleapis.com/youtubei/v1/browse';
-  const config = 'CKXsl8cGEO2KrQUQ8rqtBRCOlq4FEIirrgUQvbauBRCO164FEJDXrgUQq5yvBRDagrAFELWKsAUQ56WwBRCc0LAFEM_SsAUQs_KwBRDj-LAFEJjZsQUQ15jOHBD8ss4cEObIzhwQwobPHBCrnc8cEOe9zxwQ-MbPHBCays8cENrTzxwQnNfPHBDL2s8cEM_gzxwQt-TPHBDP5c8cEKrozxwQr_PPHBDy9s8cEM_8zxwQ4f7PHBDo_s8cEOn-zxwQ-__PHBDMgNAcENWD0BwQmoXQHBD7h9AcEICI0BwQm4jQHBDziNAcEOyK0BwQxozQHBoyQU9qRm94MkRnWlhDLUtlNmQ4NDNhMjVxQmQyTjNGSWh5Y2g2YXBJX00tQV94OE93eWciMkFPakZveDF4V1dIWjJqaFlfUDcwbXU4N0NvOTVoVWg4b3lxU0RjZnlFdUphWTR5djVnKpACQ0FNU3hRRU5VNG5RcVFMdExObDRCdWdDN3diNEZPc0RfaXVqRGZJUXFnR2tGLXNBMXl1b0RrYlNGdDJ5bXhEa0JvMFAzQS1rQ3JVUzNBUHlDaGFrQTU0VTd4WVVud0hQRk9RR3d4TGxGWkVWcHcyVUFPSU1yaExfQmhWcXRxeldET0xIQTZTdjBnc1FuRDY3Rjh6ckJxUXNoc2NGbExNRzZXblQ0d2JHTWZ5VkJvRG9CTjFXbWdIb2FQNFY3Qk9VUi14ZW1ZRUduSDNNZmNrcl9tV0xIbUdmOVFhY1FPdGZ1QXV4TG9TWkJqTEtMNDBVNk13RzJhUUdBNnNKa0xrR0JkcHZ2RUhOZGVTT0JRPT0%3D';
+  const config = process.env.YOUTUBE_COLD_CONFIG ?? '';
   const res = await fetch(endpoint, {
     cache: 'no-store',
     method: 'POST',
@@ -96,6 +96,7 @@ function encode() {
       },
     },
     f2: 'FEhype_leaderboard',
+    // f2: 'FEtrending',
   };
   const proto = `
 syntax = "proto3";
