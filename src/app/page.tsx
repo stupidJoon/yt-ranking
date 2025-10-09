@@ -1,6 +1,6 @@
 import protobuf from 'protobufjs';
-import { ModeToggle } from '@/components/mode-toggle.tsx';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table.tsx';
+import { ModeToggle } from '@/components/mode-toggle.tsx';
 
 interface Video {
   url: string;
@@ -15,17 +15,17 @@ interface Video {
 
 export default async function Home() {
   const videos = await getHypeVideos();
-  // console.log(videos);
 
   return (
     <div className='max-w-3xl min-h-svh mx-auto flex flex-col'>
-      <div className='p-4 flex justify-between'>
-        <h1 className='text-2xl font-bold'>yt-ranking</h1>
-        <div className='flex gap-4'>
-          <ModeToggle />
+      <header className='p-4 flex justify-between align-middle'>
+        <div>
+          <h1 className='text-2xl font-bold'>yt-ranking</h1>
+          <p className='text-muted-foreground'>유튜브 Hype 동영상 랭킹</p>
         </div>
-      </div>
-      <Table className='table-fixed'>
+        <ModeToggle />
+      </header>
+      <Table Container='main' className='table-fixed'>
         <TableBody>
             {videos.map((video) => (
               <TableRow key={video.url}>
@@ -60,10 +60,9 @@ async function getHypeVideos(): Promise<Video[]> {
       'Content-Type': 'application/x-protobuf',
       'x-youtube-cold-config-data': config,
     },
-    body: encode() as unknown as BodyInit,
+    body: encode(),
   });
   const object = decode(await res.arrayBuffer());
-  // console.log(object.field_9.f_58173949.f_1[0].f_58174010.f_4.f_49399797.f_1[0])
 
   return object.field_9.f_58173949.f_1[0].f_58174010.f_4.f_49399797.f_1.map((obj: any) => {
     const f_1 = obj.f_50195462.f_1.f_153515154.f_172660663.f_1.f_168777401.f_5.f_232971250.f_25.f_1;
@@ -78,7 +77,6 @@ async function getHypeVideos(): Promise<Video[]> {
       hits: data[3],
       created: data[2],
       ranking: data[1],
-      // data,
     }
   });
 }
@@ -185,7 +183,12 @@ message Msg33_2 { uint32 f1 = 1; }
   const root = protobuf.parse(proto).root;
   const Root = root.lookupType('demo.Root');
   const buffer = Root.encode(payload).finish();
-  return buffer;
+  return new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(buffer);
+      controller.close();
+    },
+  });
 }
 
 function decode(buffer: ArrayBuffer) {

@@ -1,12 +1,16 @@
 'use client';
 
-import * as React from 'react';
+import { JSX } from 'react';
 
 import { cn } from '@/lib/utils';
 
-function Table({ className, ...props }: React.ComponentProps<'table'>) {
+type TableProps = React.ComponentProps<'table'> & {
+  Container: keyof JSX.IntrinsicElements;
+};
+
+function Table({ Container = 'div', className, ...props }: TableProps) {
   return (
-    <div
+    <Container
       data-slot='table-container'
       className='relative w-full overflow-x-auto'>
       <table
@@ -14,7 +18,7 @@ function Table({ className, ...props }: React.ComponentProps<'table'>) {
         className={cn('w-full caption-bottom text-sm', className)}
         {...props}
       />
-    </div>
+    </Container>
   );
 }
 
