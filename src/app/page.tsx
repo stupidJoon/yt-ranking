@@ -29,16 +29,16 @@ export default async function Home() {
         <TableBody>
             {videos.map((video) => (
               <TableRow key={video.url}>
-                <TableCell className='w-36'>
+                <TableCell className='w-44 align-top'>
                   <a href={video.url} target='_blank' rel='noopener noreferrer'>
                     <img className='rounded-lg' src={video.thumbnail} />
                   </a>
                 </TableCell>
-                <TableCell className='align-top space-y-0.5'>
+                <TableCell className='align-top space-y-1'>
                   <h2 className='text-base/5 text-wrap line-clamp-2'>{video.title}</h2>
                   {/* <p className='text-xs text-wrap line-clamp-1 text-muted-foreground'>{video.creator}</p> */}
                   <p className='text-xs text-wrap line-clamp-1 text-muted-foreground'>{video.creator} • {video.hits} • {video.created}</p>
-                  <p className='text-xs text-wrap line-clamp-1 bg-muted px-2 py-1 inline-block rounded-lg'>{video.ranking}</p>
+                  <p className='text-xs text-wrap line-clamp-1 bg-muted px-2 py-1 inline-block rounded-lg'>🌠 {video.ranking}</p>
                 </TableCell>
               </TableRow>
             ))}
