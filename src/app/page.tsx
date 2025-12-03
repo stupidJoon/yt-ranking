@@ -73,6 +73,17 @@ async function VideosTable({ chart }: { chart: string }) {
 
 async function getPopularVideos(): Promise<Video[]> {
   const toUrl = (str: string) => `https://www.youtube.com/watch?v=${str}`;
+  const toLen = (str: string) => {
+  const match = str.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+  if (match === null) return '0:0';
+
+  const hours = parseInt(match[1] || '0');
+  const minutes = parseInt(match[2] || '0');
+  const seconds = parseInt(match[3] || '0');
+  const totalMinutes = hours * 60 + minutes;
+  const paddedSeconds = seconds.toString().padStart(2, '0');
+  return `${totalMinutes}:${paddedSeconds}`
+}
   const toViewcount = (str: string) => `조회수 ${Math.floor(Number(str) / 10000)}만회`;
   const toCreated = (str: string) => {
     const inputDate = new Date(str);
@@ -82,23 +93,21 @@ async function getPopularVideos(): Promise<Video[]> {
     if (diffDays >= 1) {
       return `${diffDays}일 전`;
     } else {
-      // 0일 전이면 시간 단위로 계산
       const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
       return `${diffHours}시간 전`;
     }
   }
 
   const API_KEY = process.env.YOUTUBE_API_KEY;
-  const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=50&key=${API_KEY}`;
+  const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&chart=mostPopular&regionCode=KR&maxResults=50&key=${API_KEY}`;
   const res = await fetch(endpoint, {
     cache: 'no-store',
   });
   const { items } = await res.json();
-  console.log(typeof items[0].statistics.viewCount);
 
   return items.map((item: any, i: number) => ({
     url: toUrl(item.id),
-    len: 100,
+    len: toLen(item.contentDetails.duration),
     // thumbnail: item.snippet.thumbnails.maxres.url,
     thumbnail: item.snippet.thumbnails.standard.url,
     title: item.snippet.title,
