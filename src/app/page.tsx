@@ -1,6 +1,7 @@
 import protobuf from 'protobufjs';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table.tsx';
 import { ModeToggle } from '@/components/mode-toggle.tsx';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
 
 interface Video {
   url: string;
@@ -14,40 +15,98 @@ interface Video {
 }
 
 export default async function Home() {
-  const videos = await getHypeVideos();
-
   return (
     <div className='max-w-3xl min-h-svh mx-auto flex flex-col'>
       <header className='p-4 flex justify-between align-middle'>
         <div>
           <h1 className='text-2xl font-bold'>yt-ranking</h1>
-          <p className='text-muted-foreground'>유튜브 Hype 동영상 랭킹</p>
+          <p className='text-muted-foreground'>유튜브 Hype • 인기 동영상 랭킹</p>
         </div>
         <ModeToggle />
       </header>
-      <Table Container='main' className='table-fixed'>
-        <TableBody>
-            {videos.map((video) => (
-              <TableRow key={video.url}>
-                <TableCell className='w-44 align-top relative'>
-                  <a href={video.url} target='_blank' rel='noopener noreferrer'>
-                    <img className='rounded-lg' src={video.thumbnail} alt='thumbnail' />
-                  </a>
-                  <p className='absolute right-4 bottom-4 bg-background/70 px-1 rounded-sm'>{video.len}</p>
-                </TableCell>
-                <TableCell className='align-top space-y-1'>
-                  <h2 className='text-base/5 text-wrap line-clamp-2'>
-                    <a href={video.url} target='_blank' rel='noopener noreferrer'>{video.title}</a>
-                  </h2>
-                  <p className='text-xs text-wrap line-clamp-1 text-muted-foreground'>{video.creator} • {video.hits} • {video.created}</p>
-                  <p className='text-xs bg-muted px-2 py-1 inline-block rounded-lg'>🌠 {video.ranking}</p>
-                </TableCell>
-              </TableRow>
-            ))}
-        </TableBody>
-      </Table>
+      <Tabs defaultValue='hype'>
+        <TabsList>
+          <TabsTrigger value='hype'>Hype</TabsTrigger>
+          <TabsTrigger value='popular'>Popular</TabsTrigger>
+        </TabsList>
+        <TabsContent value='hype'>
+          <VideosTable chart='hype' />
+        </TabsContent>
+        <TabsContent value='popular'>
+          <VideosTable chart='popular' />
+        </TabsContent>
+      </Tabs>
+
     </div>
   );
+}
+
+async function VideosTable({ chart }: { chart: string }) {
+  let videos: Video[];
+  if (chart === 'popular') videos = await getPopularVideos();
+  else videos = await getHypeVideos();
+
+  return (
+    <Table Container='main' className='table-fixed'>
+      <TableBody>
+          {videos.map((video) => (
+            <TableRow key={video.url}>
+              <TableCell className='w-44 align-top relative'>
+                <a href={video.url} target='_blank' rel='noopener noreferrer'>
+                  <img className='rounded-lg h-[90px] object-cover' src={video.thumbnail} alt='thumbnail' width='160' height='90' />
+                </a>
+                <p className='absolute right-4 bottom-4 bg-background/70 px-1 rounded-sm'>{video.len}</p>
+              </TableCell>
+              <TableCell className='align-top space-y-1'>
+                <h2 className='text-base/5 text-wrap line-clamp-2'>
+                  <a href={video.url} target='_blank' rel='noopener noreferrer'>{video.title}</a>
+                </h2>
+                <p className='text-xs text-wrap line-clamp-1 text-muted-foreground'>{video.creator} • {video.hits} • {video.created}</p>
+                <p className='text-xs bg-muted px-2 py-1 inline-block rounded-lg'>🌠 {video.ranking}</p>
+              </TableCell>
+            </TableRow>
+          ))}
+      </TableBody>
+    </Table>
+  );
+}
+
+async function getPopularVideos(): Promise<Video[]> {
+  const toUrl = (str: string) => `https://www.youtube.com/watch?v=${str}`;
+  const toViewcount = (str: string) => `조회수 ${Math.floor(Number(str) / 10000)}만회`;
+  const toCreated = (str: string) => {
+    const inputDate = new Date(str);
+    const now = new Date();
+    const diffMs = now.getTime() - inputDate.getTime();
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    if (diffDays >= 1) {
+      return `${diffDays}일 전`;
+    } else {
+      // 0일 전이면 시간 단위로 계산
+      const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+      return `${diffHours}시간 전`;
+    }
+  }
+
+  const API_KEY = process.env.YOUTUBE_API_KEY;
+  const endpoint = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&chart=mostPopular&regionCode=KR&maxResults=50&key=${API_KEY}`;
+  const res = await fetch(endpoint, {
+    cache: 'no-store',
+  });
+  const { items } = await res.json();
+  console.log(typeof items[0].statistics.viewCount);
+
+  return items.map((item: any, i: number) => ({
+    url: toUrl(item.id),
+    len: 100,
+    // thumbnail: item.snippet.thumbnails.maxres.url,
+    thumbnail: item.snippet.thumbnails.standard.url,
+    title: item.snippet.title,
+    creator: item.snippet.channelTitle,
+    hits: toViewcount(item.statistics.viewCount),
+    created: toCreated(item.snippet.publishedAt),
+    ranking: `Popular 순위 ${i + 1}위`,
+  }));
 }
 
 async function getHypeVideos(): Promise<Video[]> {
