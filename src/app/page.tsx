@@ -20,14 +20,14 @@ export default async function Home() {
       <header className='p-4 flex justify-between align-middle'>
         <div>
           <h1 className='text-2xl font-bold'>yt-ranking</h1>
-          <p className='text-muted-foreground'>유튜브 Hype • 인기 동영상 랭킹</p>
+          <p className='text-muted-foreground'>유튜브 Hype • Trends 동영상 랭킹</p>
         </div>
         <ModeToggle />
       </header>
       <Tabs defaultValue='hype'>
         <TabsList>
           <TabsTrigger value='hype'>Hype</TabsTrigger>
-          <TabsTrigger value='popular'>Popular</TabsTrigger>
+          <TabsTrigger value='popular'>Trends</TabsTrigger>
         </TabsList>
         <TabsContent value='hype'>
           <VideosTable chart='hype' />
@@ -114,7 +114,7 @@ async function getPopularVideos(): Promise<Video[]> {
     creator: item.snippet.channelTitle,
     hits: toViewcount(item.statistics.viewCount),
     created: toCreated(item.snippet.publishedAt),
-    ranking: `Popular 순위 ${i + 1}위`,
+    ranking: `Trends 순위 ${i + 1}위`,
   }));
 }
 
