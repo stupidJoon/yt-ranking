@@ -20,23 +20,22 @@ export default async function Home() {
       <header className='p-4 flex justify-between align-middle'>
         <div>
           <h1 className='text-2xl font-bold'>yt-ranking</h1>
-          <p className='text-muted-foreground'>유튜브 Hype • Trends 동영상 랭킹</p>
+          <p className='text-muted-foreground'>유튜브 Trends • Hype 동영상 랭킹</p>
         </div>
         <ModeToggle />
       </header>
-      <Tabs defaultValue='hype'>
+      <Tabs defaultValue='popular'>
         <TabsList>
-          <TabsTrigger value='hype'>Hype</TabsTrigger>
           <TabsTrigger value='popular'>Trends</TabsTrigger>
+          <TabsTrigger value='hype'>Hype</TabsTrigger>
         </TabsList>
-        <TabsContent value='hype'>
-          <VideosTable chart='hype' />
-        </TabsContent>
         <TabsContent value='popular'>
           <VideosTable chart='popular' />
         </TabsContent>
+        <TabsContent value='hype'>
+          <VideosTable chart='hype' />
+        </TabsContent>
       </Tabs>
-
     </div>
   );
 }
