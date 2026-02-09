@@ -1,0 +1,28 @@
+namespace NodeJS {
+  interface ProcessEnv {
+    YOUTUBE_API_KEY: string
+    AWS_ACCESS_KEY_ID: string
+    AWS_SECRET_ACCESS_KEY: string
+
+    AWS_LAMBDA_ARN_US_EAST_1: string
+    AWS_LAMBDA_ARN_CA_CENTRAL_1: string
+    AWS_LAMBDA_ARN_SA_EAST_1: string
+    AWS_LAMBDA_ARN_MX_CENTRAL_1: string
+
+    AWS_LAMBDA_ARN_EU_WEST_1: string
+    AWS_LAMBDA_ARN_EU_WEST_2: string
+    AWS_LAMBDA_ARN_EU_WEST_3: string
+    AWS_LAMBDA_ARN_EU_CENTRAL_1: string
+    AWS_LAMBDA_ARN_EU_SOUTH_1: string
+    AWS_LAMBDA_ARN_EU_SOUTH_2: string
+    AWS_LAMBDA_ARN_EU_NORTH_1: string
+
+    AWS_LAMBDA_ARN_AP_NORTHEAST_1: string
+    AWS_LAMBDA_ARN_AP_NORTHEAST_2: string
+    AWS_LAMBDA_ARN_AP_EAST_2: string
+    AWS_LAMBDA_ARN_AP_SOUTH_1: string
+
+    AWS_LAMBDA_ARN_AP_SOUTHEAST_2: string
+    AWS_LAMBDA_ARN_AP_SOUTHEAST_3: string
+  }
+}

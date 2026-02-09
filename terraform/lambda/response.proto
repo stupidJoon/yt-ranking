@@ -1,0 +1,235 @@
+syntax = "proto3";
+
+package response;
+
+// NOTE: This is a partial schema inferred from `protoc --decode_raw`.
+// Many deeply nested fields are left as `bytes` to avoid incorrect typing.
+
+message Root {
+  Msg1 f1 = 1;
+  Msg9 f9 = 9;
+}
+
+message Msg1 {
+  string f2 = 2; // visitor_data (base64)
+  repeated F6 f6 = 6;
+}
+
+message F6 {
+  uint32 type_id = 1; // appears to be a type id
+  repeated KV kv_pairs = 2;
+}
+
+message KV {
+  string key = 1;
+  string value = 2;
+}
+
+message Msg9 {
+  repeated F58173949 f58173949 = 58173949;
+}
+
+message F58173949 {
+  repeated F1 f1 = 1;
+}
+
+message F1 {
+  repeated F58174010 f58174010 = 58174010;
+}
+
+message F58174010 {
+  string f2 = 2;
+  uint32 f3 = 3;
+  F4 f4 = 4;
+}
+
+message F4 {
+  repeated F49399797 f49399797 = 49399797;
+}
+
+message F49399797 {
+  repeated F1b f1 = 1;
+}
+
+message F1b {
+  repeated F50195462 f50195462 = 50195462;
+}
+
+message F50195462 {
+  F1c f1 = 1;
+  F4c f4 = 4;
+}
+
+message F1c {
+  repeated F153515154 f153515154 = 153515154;
+}
+
+message F153515154 {
+  F3 f3 = 3;
+  F5 f5 = 5;
+  F172660663 f172660663 = 172660663;
+}
+
+message F4c {
+  uint32 f1 = 1;
+  uint32 f2 = 2;
+  uint32 f3 = 3;
+  F4c_4 f4 = 4;
+}
+
+message F4c_4 {
+  uint64 f1 = 1;
+  fixed32 f2 = 2;
+  fixed32 f3 = 3;
+}
+
+message F3 {
+  F3_523554294 f523554294 = 523554294;
+}
+
+message F3_523554294 {
+  uint32 f1 = 1;
+}
+
+message F5 {
+  uint32 f1 = 1;
+  uint32 f2 = 2;
+  uint32 f3 = 3;
+  F4c_4 f4 = 4;
+}
+
+message F172660663 {
+  F172660663_1 f1 = 1;
+}
+
+message F172660663_1 {
+  F168777401 f168777401 = 168777401;
+}
+
+message F168777401 {
+  F168777401_3 f3 = 3;
+  F168777401_5 f5 = 5;
+}
+
+message F168777401_3 {
+  F172035250 f172035250 = 172035250;
+}
+
+message F172035250 {
+  string f1 = 1;
+}
+
+message F168777401_5 {
+  F232971250 f232971250 = 232971250;
+}
+
+message F232971250 {
+  F232971250_3 f3 = 3;
+  string f6 = 6;
+  F232971250_10 f10 = 10;
+  F232971250_25 f25 = 25;
+}
+
+message F232971250_3 {
+  uint32 f1 = 1;
+  uint32 f2 = 2;
+  uint32 f3 = 3;
+  F4c_4 f4 = 4;
+  uint64 f8 = 8;
+}
+
+message F232971250_10 {
+  uint32 f5 = 5;
+}
+
+message F232971250_25 {
+  F25 f1 = 1;
+  string f2 = 2;
+}
+
+message F25 {
+  F25_1 f1 = 1;
+  F25_2 f2 = 2;
+  uint32 f4 = 4;
+  uint32 f5 = 5;
+  string f6 = 6;
+  uint32 f7 = 7;
+  uint32 f11 = 11;
+  uint32 f12 = 12;
+  uint32 f18 = 18;
+  uint32 f49 = 49;
+}
+
+message F25_1 {
+  Thumbs f1 = 1;
+  string f2 = 2;
+  uint32 f4 = 4;
+  string f11 = 11;
+}
+
+message Thumbs {
+  repeated Thumb f1 = 1;
+}
+
+message Thumb {
+  string url = 1;
+  uint32 width = 4;
+  uint32 height = 5;
+}
+
+message F25_2 {
+  string f1 = 1;
+  string f2 = 2;
+  F25_2_6 f6 = 6;
+}
+
+message F25_2_6 {
+  string f1 = 1;
+  uint32 f3 = 3;
+  F4c f4 = 4;
+  string f7 = 7;
+  uint32 f9 = 9;
+  uint32 f10 = 10;
+  uint32 f11 = 11;
+  string f12 = 12;
+  F25_2_6_999 f999 = 999;
+}
+
+message F25_2_6_999 {
+  F25_2_6_999_1 f1 = 1;
+  F25_2_6_999_4 f4 = 4;
+}
+
+message F25_2_6_999_1 {
+  uint32 f1 = 1;
+  uint32 f2 = 2;
+  uint32 f3 = 3;
+  F4c_4 f4 = 4;
+}
+
+message F25_2_6_999_4 {
+  uint32 f1 = 1;
+}
+
+// Decoded from visitor_data (base64)
+message VisitorData {
+  string f1 = 1;
+  uint32 f5 = 5;
+  VisitorData_6 f6 = 6;
+  VisitorData_7 f7 = 7;
+}
+
+message VisitorData_6 {
+  string country_code = 1; // country code (e.g., KR)
+  VisitorData_6_2 f2 = 2;
+}
+
+message VisitorData_6_2 {
+  string f3 = 3;
+  uint32 f4 = 4;
+}
+
+message VisitorData_7 {
+  uint32 f1 = 1;
+  uint64 f4 = 4;
+}

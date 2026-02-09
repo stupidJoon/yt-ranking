@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package request;
+
+message Root {
+  Msg1 f1 = 1;
+  string f2 = 2;
+  Msg26 f26 = 26;
+  int32 f29 = 29;
+  Msg33 f33 = 33;
+}
+
+message Msg1 {
+  Device f1 = 1;   // 디바이스/환경 블록
+  string f3 = 3;   // ""
+  M5 f5 = 5;       // 정책/세팅 추정
+  M6 f6 = 6;       // 시그니처/토큰 추정
+}
+
+message Device {
+  string f1 = 1;   // "ko"
+  string f2 = 2;   // "KR"
+  string f12 = 12; // "Apple"
+  string f13 = 13; // "iPhone14,3"
+  int32  f16 = 16;
+  string f17 = 17; // "19.34.2"
+  string f18 = 18; // "iOS"
+  string f19 = 19; // "26.0.1.23A355"
+  int32  f37 = 37;
+  int32  f38 = 38;
+  int32  f41 = 41;
+  int32  f46 = 46;
+  int32  f55 = 55;
+  int32  f56 = 56;
+  int32  f61 = 61;
+  fixed32 f65 = 65; // 0x40400000
+  int32  f67 = 67;
+  int32  f78 = 78;
+  string f80 = 80;  // "Asia/Seoul"
+  M84   f84 = 84;   // 해시/아이디 배열 추정
+  uint32 f95 = 95;
+  M97   f97 = 97;
+  M99   f99 = 99;
+  M100  f100 = 100;
+  uint32 f105 = 105;
+}
+
+message M84 { repeated uint64 f4 = 4; }
+message M97 { uint32 f1 = 1; uint32 f2 = 2; }
+message M99 { string f1 = 1; }
+
+message M100 { M100A f1 = 1; }
+message M100A { uint32 f1 = 1; uint32 f3 = 3; }
+
+message M5 { M5_33 f33 = 33; }
+message M5_33 { M5_33_2 f2 = 2; }
+message M5_33_2 {
+  uint32 f1 = 1;
+  M5_33_2_2 f2 = 2;
+  uint32 f3 = 3;
+  uint64 f5 = 5;
+}
+message M5_33_2_2 { M5_33_2_2_7 f7 = 7; }
+message M5_33_2_2_7 { repeated Pair f1 = 1; }
+message Pair { uint32 f1 = 1; uint32 f2 = 2; }
+
+message M6 { M6_2 f2 = 2; }
+message M6_2 {
+  uint32 f1 = 1;
+  uint32 f2 = 2;
+  uint32 f3 = 3;
+  M6_2_4 f4 = 4;
+  bytes f25 = 25;
+}
+message M6_2_4 {
+  uint64  f1 = 1;
+  fixed32 f2 = 2;
+  fixed32 f3 = 3;
+}
+
+message Msg26 { uint32 f2 = 2; uint32 f5 = 5; }
+message Msg33 { Msg33_2 f2 = 2; }
+message Msg33_2 { uint32 f1 = 1; }

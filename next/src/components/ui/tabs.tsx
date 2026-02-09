@@ -27,7 +27,7 @@ function TabsList({
       data-slot='tabs-list'
       className={cn(
         // 'bg-muted text-muted-foreground inline-flex h-9 w-fit items-center justify-center rounded-lg p-[3px]',
-        'bg-muted text-muted-foreground inline-flex h-9 items-center justify-center rounded-lg p-[3px] mx-4',
+        'bg-muted text-muted-foreground inline-flex h-9 items-center justify-center rounded-lg p-[3px] mx-1',
         className,
       )}
       {...props}
