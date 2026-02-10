@@ -15,7 +15,7 @@ export function SelectCountry({ country }: { country: string }) {
       placeholder='Select country'
       defaultValue={alpha3}
       options={allowedCountries}
-      onChange={(value) => window.location.href = `/?country=${value?.alpha2}`}
+      onChange={(value) => window.location.href = `/${value.alpha2.toLowerCase()}`}
       slim
     />
   )
