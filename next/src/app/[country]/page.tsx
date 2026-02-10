@@ -36,7 +36,7 @@ export default async function Index({ params }: { params: Promise<{ country: str
             </Button>
           </div>
         </div>
-        <p className='text-muted-foreground'>Youtube Trends • Hype Videos</p>
+        <p className='leading-none text-muted-foreground'>Youtube Trends • Hype Videos</p>
       </header>
       <Tabs defaultValue='popular'>
         <TabsList>
