@@ -6,6 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.t
 import { Skeleton } from "@/components/ui/skeleton"
 import { ModeToggle } from '@/components/mode-toggle.tsx';
 import { SelectCountry } from '@/components/SelectCountry.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import { GithubIcon } from '@/components/GithubIcon.tsx';
 
 interface Video {
   url: string;
@@ -23,15 +25,18 @@ export default async function Index({ params }: { params: Promise<{ country: str
 
   return (
     <div className='max-w-3xl min-h-svh mx-auto flex flex-col'>
-      <header className='p-4 flex justify-between align-middle'>
-        <div>
+      <header className='p-4'>
+        <div className='flex justify-between'>
           <h1 className='text-2xl font-bold'><a href='/'>yt-ranking</a></h1>
-          <p className='text-muted-foreground'>Youtube Trends • Hype Videos Ranking</p>
+          <div className='flex gap-2'>
+            <SelectCountry country={country} />
+            <ModeToggle />
+            <Button variant='outline' size='icon' aria-label='github' asChild>
+              <a href='https://github.com/stupidJoon/yt-ranking' target='_blank' rel='noopener noreferrer'><GithubIcon /></a>
+            </Button>
+          </div>
         </div>
-        <div className='flex gap-2'>
-          <SelectCountry country={country} />
-          <ModeToggle />
-        </div>
+        <p className='text-muted-foreground'>Youtube Trends • Hype Videos</p>
       </header>
       <Tabs defaultValue='popular'>
         <TabsList>
