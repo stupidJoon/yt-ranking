@@ -178,5 +178,9 @@ async function getHypeVideos(country: string): Promise<Video[]> {
   const response = await client.send(command);
   if (!response.Payload) return [];
   const result = JSON.parse(Buffer.from(response.Payload).toString());
+  if (result.errorMessage) {
+    console.error(`Lambda Error: ${result}`);
+    return getHypeVideos(country);
+  }
   return result;
 }
